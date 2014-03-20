@@ -6,7 +6,7 @@ body {
 .year-tag {display: none;}
 
 @media only screen and (min-width: 550px) {
-	.year-group {
+	#main {
 		> .year-tag {display: block; float: left;}
 		> article {
 			margin-left: 80px;

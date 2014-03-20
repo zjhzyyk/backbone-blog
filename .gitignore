@@ -2,3 +2,4 @@ node_modules
 app/bower_components
 .sass-cache
 app/dist
+app/templates/templates.js

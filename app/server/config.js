@@ -1,3 +1,3 @@
 module.exports = {
-	"/": "blogs#index"
+	blogsPerPage: 1
 };

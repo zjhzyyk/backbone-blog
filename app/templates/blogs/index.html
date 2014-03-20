@@ -1,1 +1,13 @@
-blog index
+<% _.each(blogs, function(blog, i){ %>
+	<% if (i==0 || blogs.getYear()!== blogs[i-1].getYear()) { %>
+		<h1 class="year-tag"><%= blog.getYear() %></h1>
+	<% } %>
+	<article>
+		<h1><%= blog.title %></h1>
+		<time>
+			<span class="blog-month"><%= blog.getMonth() %></span>
+			<span class="blog-day"><%= blog.getDate() %></span>
+			<span class="blog-year"><%= blog.getYear() %></span>
+		</time>
+	</article>
+<% }) %>

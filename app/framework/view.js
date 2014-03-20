@@ -1,9 +1,6 @@
 var _ = require('underscore');
-var extend = require('./extend');
-var stack = require("./view_stack");
+var extend = require("./extend");
 var JST = require("../views/templates").JST;
-
-module.exports = View;
 
 function View(options){
   this.cid = _.uniqueId('view');
@@ -76,3 +73,5 @@ _.extend(View.prototype, {
 });
 
 View.extend = extend;
+
+module.exports = View;

@@ -11,7 +11,6 @@ _.extend(Collection.prototype, {
 	where: function(options, succeed, fail){
 		data = {};
 		succeed(data);
-
 	}
 });
 

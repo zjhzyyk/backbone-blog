@@ -69,22 +69,19 @@ module.exports = function(grunt) {
         ]
       }
     },
-    // neuter: {
-    //   application: {
-    //     src: 'app/scripts/app.js',
-    //     dest: 'app/dist/main.js',
-    //   }
-    // },
     jst: {
       compile: {
         options: {
           prettify: true,
           processName: function(filepath) {
             return filepath.slice("app/templates/".length, -".html".length);
+          },
+          processContent: function(src) {
+            return "var _ = require('underscore');\n"+src;
           }
         },
         files: {
-          "app/views/templates.js": ["app/templates/**/*.html"]
+          "app/templates/templates.js": ["app/templates/**/*.html"]
         }
       }
     }

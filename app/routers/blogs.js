@@ -1,11 +1,6 @@
 var Router = require("../framework/router");
 var JST = require("../views/templates.js").JST;
 var Blog = require("../models/blog");
-if (typeof exports !== 'undefined') {
-	var $ = require("cheerio");
-	var inNode = true;
-}
-else inNode = false;
 
 module.exports = Router.extend({
 	routes: {
@@ -13,16 +8,7 @@ module.exports = Router.extend({
 		"/blogs/:id": "show",
 		"/blogs/:id/edit": "edit"
 	},
-	update: function(content, res){
-		if (inNode && res) {
-			var index = $(JST['index']());
-			index.find("#main").after(content);
-			res.send(index.toString());
-		} else if (!inNode) {
-			$("#main").after(blogs);
-		}
-	}
-	index: function(res){
+	index: function(){
 		var self = this;
 		Blog.where({page: 1}, function(data){
 			var blogs = "";
@@ -31,17 +17,17 @@ module.exports = Router.extend({
 			for (;i<perpage;i++) {
 				blogs+=JST['blog/summary'](data.blogs[i]);
 			}
-			self.update(blogs, res);
+			$("#main").after(blogs);
 		});
 	},
-	show: function(id, res){
+	show: function(id){
 		var self = this;
 		Blog.where({id: id}, function(data){
 			var blog = JST['blog'](data.blog);
-			self.update(blog, res);
+			$("#main").after(blog);
 		});
 	},
-	edit: function(id, res) {
+	edit: function(id) {
 		show(id);
 	}
 });
