@@ -1,0 +1,23 @@
+body {
+	max-width: 1000px;
+	margin: 0 auto;
+}
+
+.year-tag {display: none;}
+
+@media only screen and (min-width: 550px) {
+	.year-group {
+		> .year-tag {display: block; float: left;}
+		> article {
+			margin-left: 80px;
+			padding-left: 70px;
+			position: relative;
+		}
+	}
+	article > time {
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	.blog-year {display: none;}
+}
