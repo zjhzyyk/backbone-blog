@@ -9,7 +9,6 @@ app.configure(function(){
   app.use(express.urlencoded());
   app.use(express.methodOverride());
   app.use(new Preloader());
-  app.use(express['static'](__dirname + '../dist'));
 });
 
 app.configure('development', function(){

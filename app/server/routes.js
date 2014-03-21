@@ -1,3 +1,4 @@
 module.exports = {
-	"/": "blogs#index"
+	"/": "blogs#index",
+  "/404": "404"
 };

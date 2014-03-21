@@ -1,13 +1,13 @@
 var _ = require('underscore');
 var extend = require("./extend");
-var JST = require("../views/templates").JST;
+var JST = require("../templates/templates")(_);
 
 function View(options){
-  this.cid = _.uniqueId('view');
   _.extend(this, options);
-  this.initialize();
-  this.render();
   if (!this.server) {
+    this.cid = _.uniqueId('view');
+    this.initialize();
+    this.render();
     this.delegateEvents();
     this.afterCreate();
   }

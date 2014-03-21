@@ -73,11 +73,9 @@ module.exports = function(grunt) {
       compile: {
         options: {
           prettify: true,
+          commonjs: true,
           processName: function(filepath) {
             return filepath.slice("app/templates/".length, -".html".length);
-          },
-          processContent: function(src) {
-            return "var _ = require('underscore');\n"+src;
           }
         },
         files: {
@@ -92,7 +90,6 @@ module.exports = function(grunt) {
     'clean',
     'compass:dev',
     'jst',
-    // 'neuter',
     'connect:server',
     'watch'
   ]);
@@ -101,6 +98,5 @@ module.exports = function(grunt) {
     'clean',
     'compass:dist',
     'jst',
-    // 'neuter'
   ]);
 };
