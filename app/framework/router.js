@@ -4,9 +4,9 @@ var extend = require('./extend');
 module.exports = Router;
 
 function Router(options){
-  console.log("router options", options);
+  // console.log("router options", options);
   _.extend(this, options);
-  console.log("router this.server", this.server);
+  // console.log("router this.server", this.server);
   this.handlers = [];
   if (!this.server)
     this.initialize();
@@ -17,7 +17,7 @@ _.extend(Router.prototype, {
     this.start();
   },
   checkUrl: function(e){
-    console.log("start checking url");
+    // console.log("start checking url");
     var current = decodeURI(window.location.pathname + window.location.search);
     if (current===this.prevURL) return;
     this.navigate(current);
@@ -46,7 +46,7 @@ _.extend(Router.prototype, {
       var method = value.slice(value.indexOf("#")+1);
     }
     this.bindRoute(new RegExp("^"+url+'(?:\\?([\\s\\S]*))?$'), function(args){
-      console.log("server in router", self.server);
+      // console.log("server in router", self.server);
       var viewPath = self.server ? "../server/views/" : "../client/views/";
       if (hashIndex<0)
         viewPath += view;
@@ -55,12 +55,13 @@ _.extend(Router.prototype, {
       console.log("initialize", viewPath);
       var SubView = require(viewPath);
       var appView = new SubView({server: self.server});
-      console.log("appView init finishes");
+      // console.log("appView init finishes");
       if (self.server) appView.build(args);
     });
   },
   navigate: function(url, res) {
-    _.any(this.handlers, function(handler) {
+    return _.any(this.handlers, function(handler) {
+      console.log("start checking", handler.route);
       var args = handler.route.exec(url);
       if (args) {
         if (res) _.extend(args, {res: res});
@@ -68,7 +69,6 @@ _.extend(Router.prototype, {
         return true;
       }
     });
-    return false;
   }
 });
 

@@ -1,1 +1,17 @@
-single blog
+<article>
+  <header>
+    <p class="blog-meta">
+      <time><%= getTime() %></time>
+      <a href="">Comments</a>
+      <a href="">Edit</a>
+    </p>
+    <h1><%= title %></h1>
+  </header>
+  <div>
+    <%= content %>
+  </div>
+</article>
+<div>
+  <a href="">Prev</a>
+  <a href="">Next</a>
+</div>

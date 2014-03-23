@@ -6,7 +6,7 @@ var $ = require("cheerio");
 module.exports = NotFound.extend({
   build: function(args){
     var index = $(JST['index']());
-    index.find("#main").after(JST[this.template]());
+    index.find("#main").append(JST[this.template]());
     args.res.send(index.toString());
   }
 });

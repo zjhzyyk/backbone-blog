@@ -1,9 +1,5 @@
 module.exports = function(grunt) {
-  // show elapsed time at the end
-  // require('time-grunt')(grunt);
-  // load all grunt tasks
   require('load-grunt-tasks')(grunt);
-  // Project configuration.
   grunt.initConfig({
     compass: {                  
       dist: {                   
@@ -25,26 +21,12 @@ module.exports = function(grunt) {
       }
     },
     clean: [
-      "app/dist/*"
+      "app/dist/*",
+      "app/templates/templates.js"
     ],
-    connect: {
-      options: {
-        port: 9000,
-        hostname: "localhost",
-        livereload: 35729
-      },
-      server: {
-        options: {
-          base: ['app']
-        }
-      }
-    },
     watch: {
       gruntfile: {
-        files: ['Gruntfile.js'],
-        options: {
-          livereload: true
-        }
+        files: ['Gruntfile.js']
       },
       jst: {
         files: ['app/templates/{,*/}*.html'],
@@ -52,21 +34,11 @@ module.exports = function(grunt) {
       },
       compass: {
         files: ['app/styles/{,*/}*.{scss,sass}'],
-        tasks: ['compass:dev'],
+        tasks: ['compass:dev']
       },
-      neuter: {
-        files: ['app/scripts/{,*/}*.js'],
-        tasks: ['neuter']
-      },
-      livereload: {
-        options: {
-          livereload: 35729
-        },
-        files: [
-          'app/{,*/}*.html',
-          'app/dist/{,*/}*.{js,css}',
-          'app/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
-        ]
+      browserify: {
+        files: ['app/client/{,*/}*.js'],
+        tasks: ['browserify']
       }
     },
     jst: {
@@ -82,7 +54,33 @@ module.exports = function(grunt) {
           "app/templates/templates.js": ["app/templates/**/*.html"]
         }
       }
+    },
+    browserify: {
+      app: {
+        src: ['app/client/**/*.js'],
+        dest: 'app/dist/main.js',
+        options: {
+          // external: ['underscore']
+        }
+      }
     }
+  });
+  
+  grunt.registerTask('nodemon', function () {
+    grunt.util.spawn({
+      cmd: 'node',
+      args: [
+        './node_modules/nodemon/bin/nodemon.js',
+        'app/server/server.js',
+        '--ignore "node_modules/**"',
+        'NODE_ENV=development'
+      ],
+      opts: {
+        stdio: 'inherit'
+      }
+    }, function () {
+      grunt.fail.fatal(new Error("nodemon quit"));
+    });
   });
 
   // Default task(s).
@@ -90,7 +88,8 @@ module.exports = function(grunt) {
     'clean',
     'compass:dev',
     'jst',
-    'connect:server',
+    'browserify',
+    'nodemon',
     'watch'
   ]);
 
@@ -98,5 +97,6 @@ module.exports = function(grunt) {
     'clean',
     'compass:dist',
     'jst',
+    'browserify'
   ]);
 };

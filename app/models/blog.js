@@ -13,5 +13,18 @@ module.exports = Model.extend({
 	},
 	getDate: function(){
 		return this.createTime.getDate();
+	},
+	getLink: function(){
+		return "/blog" + this.getYear() + "/" + this.createTime.getMonth + "/" + this.title.split(/\s+/).join("-");
+	},
+	daySuffix: function(day){
+		if (day>=11 && day <=13) return "th";
+		if (day%10==1) return "st";
+		if (day%10==2) return "nd";
+		if (day%10==3) return "rd";
+		return "th";
+	},
+	getTime: function(){
+		return this.getMonth()+" "+this.getDate()+this.daySuffix(this.getDate())+", "+this.getYear();
 	}
 });

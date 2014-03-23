@@ -15,9 +15,8 @@ module.exports = BlogIndex.extend({
 				blogs[i] = new Blog(blogs[i]);
 			}
 			content = JST['blogs/index']({blogs: blogs});
-			index.find("#main").after(content);
+			index.find("#main").append(content);
 			args.res.send(index.toString());
-			console.log("res send finishes");
 		});
 	}
 });

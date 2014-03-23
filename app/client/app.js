@@ -1,6 +1,10 @@
 (function(){
-	var App = window.App = {routers: {}};
-	var BlogRouter = require("../routers/blogs");
-	App.routers.blog = new BlogRouter();
-})();
+  var Router = require("./routes");
+  var BlogCollection = require("../collections/blogs");
 
+  var App = window.App = {};
+  App.router = new Router();
+  App.collections.blogs = new BlogCollection();
+
+
+})();

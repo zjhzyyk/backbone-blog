@@ -13,17 +13,8 @@ function Preloader (){
 };
 Preloader.prototype = {
 	handle: function(req, res, next){
+		console.log("get url", req.url);
 		if (!this.router.navigate(req.url, res))
 			this.router.navigate('/404',res);
-		// _.any(this.router.handlers, function(handler) {
-		// 	console.log("req.url", req.url);
-		// 	var args = handler.route.exec(req.url);
-		// 	console.log("args in url", args);
-		// 	if (args!==null) {
-		// 		_.extend(args, {res: res});
-		// 		handler.callback(args);
-		// 		return;
-		// 	}
-		// });
 	}
 };
