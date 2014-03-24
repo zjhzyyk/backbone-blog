@@ -7,8 +7,8 @@ var $ = require("cheerio");
 
 module.exports = BlogIndex.extend({
 	build: function(args){
-		var index = $(JST['index']());
 		Blogs.getPage(1, function(blogs){
+			var index = $(JST['index']({bootData: {"blogs": blogs}}));
 			var num = blogs.length;
 			var i = 0;
 			for (; i<num; i++) {

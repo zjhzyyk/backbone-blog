@@ -1,13 +1,13 @@
 <% _.each(blogs, function(blog, i){ %>
-	<% if (i==0 || blogs.getYear()!== blogs[i-1].getYear()) { %>
-		<h1 class="year-tag"><%= blog.getYear() %></h1>
+	<% if (i==0 || blog.year!== blogs[i-1].year) { %>
+		<h1 class="year-tag"><%= blog.year %></h1>
 	<% } %>
-	<article>
+	<article class="summary">
 		<h1><a href="<%= blog.getLink() %>"><%= blog.title %></a></h1>
 		<time>
 			<span class="blog-month"><%= blog.getMonth() %></span>
 			<span class="blog-day"><%= blog.getDate() %></span>
-			<span class="blog-year"><%= blog.getYear() %></span>
+			<span class="blog-year"><%= blog.year %></span>
 		</time>
 	</article>
 <% }) %>

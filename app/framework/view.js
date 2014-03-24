@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var extend = require("./extend");
 var JST = require("../templates/templates")(_);
+var app = require("../client/store");
 
 function View(options){
   _.extend(this, options);
@@ -8,38 +9,13 @@ function View(options){
     this.cid = _.uniqueId('view');
     this.initialize();
     this.render();
-    this.delegateEvents();
-    this.afterCreate();
   }
 };
 
 var delegateEventSplitter = /^(\S+)\s*(.*)$/;
 
 _.extend(View.prototype, {
-  initialize: function(){
-    if (!this.template && !this.id && !this.tagName) {
-      throw new Error("element not specified");
-      return;
-    }
-    if (this.template && !JST[this.template] && !this.id && !this.tagName) {
-      throw new Error("template not exists or template name is wrong");
-      return;
-    }
-    if (this.id) {
-      this.$el = $("#"+this.id);
-      console.log("get element from DOM, id is", this.id);
-    }
-    if (!this.$el || !this.$el.length) {
-      if (this.template) {
-        this.$el = $(JST[this.template](this));
-        console.log("get element from template", this.template);
-      } else if (this.tagName) {
-        this.$el = $('<'+this.tagName+'>');
-      }
-      if (this.id) this.$el.attr("id", this.id);
-    }
-    if (this.$el) this.el = this.$el[0];
-  },
+  initialize: function(){},
   $: function(selector) {
     return this.$el.find(selector);
   },
@@ -47,6 +23,7 @@ _.extend(View.prototype, {
   afterCreate: function(){},
   //'mousedown .title':  'edit',
   delegateEvents: function(events) {
+    this.$el.on("click", "a", "navigate")
     if (!(events || (events = _.result(this, 'events')))) return this;
     this.undelegateEvents();
     for (var key in events) {
@@ -65,6 +42,11 @@ _.extend(View.prototype, {
       }
     }
     return this;
+  },
+  navigate: function(e){
+    e.preventDefault();
+    console.log("navigate to", $(e.target).attr("href"));
+    app.router.navigate($(e.target).attr("href"));
   },
   undelegateEvents: function() {
     this.$el.off('.delegateEvents' + this.cid);

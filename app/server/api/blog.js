@@ -12,7 +12,6 @@ function getPage(num, succeed, fail){
 			if (err) {
 				fail(err);
 			} else {
-				console.log("get page succeeds");
 				succeed(blogs);
 			}
 		});

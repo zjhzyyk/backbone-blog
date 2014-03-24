@@ -1,3 +1,3 @@
 module.exports = {
-	blogsPerPage: 1
+	blogsPerPage: 5
 };

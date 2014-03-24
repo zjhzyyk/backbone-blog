@@ -1,5 +1,3 @@
 module.exports = {
-  boot: function(data){
-    
-  }
+  collections:{}
 };

@@ -1,7 +1,5 @@
 var _ = require('underscore');
 
-module.exports = Events;
-
 Events = {
   // Bind an event to a `callback` function. Passing `"all"` will bind
   // the callback to all events fired.
@@ -133,3 +131,5 @@ _.each(listenMethods, function(implementation, method) {
     return this;
   };
 });
+
+module.exports = Events;

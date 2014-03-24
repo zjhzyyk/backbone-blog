@@ -1,29 +1,40 @@
+require("../client/views/blogs/index");  
+require("../client/views/blogs/show");
+require("../client/views/404");
+
 var _ = require('underscore');
 var extend = require('./extend');
+var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
+var namedParam    = /:\w+/g;
 
 module.exports = Router;
 
 function Router(options){
   // console.log("router options", options);
   _.extend(this, options);
-  // console.log("router this.server", this.server);
   this.handlers = [];
+  this.initialize();
   if (!this.server)
-    this.initialize();
+    this.start();
 };
 
 _.extend(Router.prototype, {
   initialize: function(){
-    this.start();
+    if (!this.routes) throw new Error("no routes specified");
+    var route, routes = _.keys(this.routes);
+    while ((route = routes.pop()) != null) {
+      this.route(route, this.routes[route]);
+    }
   },
   checkUrl: function(e){
-    // console.log("start checking url");
+    console.log("url changes to", window.location.pathname + window.location.search);
     var current = decodeURI(window.location.pathname + window.location.search);
     if (current===this.prevURL) return;
     this.navigate(current);
     this.prevURL = current;
   },
   start: function(){
+    this.checkUrl();
     $(document).on('popstate', this.checkUrl);
   },
   stop: function(){
@@ -32,40 +43,29 @@ _.extend(Router.prototype, {
   bindRoute: function(route, callback){
     this.handlers.unshift({route: route, callback: callback});
   },
-  route: function(key, value){
+  route: function(url, view){
     var self = this;
-    var url = key.trim();
-    var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
-    var namedParam    = /:\w+/g;
     url = url.replace(escapeRegExp, '\\$&').replace(namedParam, '(.*?)');
-    var hashIndex = value.indexOf("#");
-    if (hashIndex<0) {
-      var view = value;
-    } else {    
-      var view = value.slice(0,value.indexOf("#"));
-      var method = value.slice(value.indexOf("#")+1);
-    }
     this.bindRoute(new RegExp("^"+url+'(?:\\?([\\s\\S]*))?$'), function(args){
-      // console.log("server in router", self.server);
       var viewPath = self.server ? "../server/views/" : "../client/views/";
-      if (hashIndex<0)
-        viewPath += view;
-      else 
-        viewPath += (view+"/"+method);
+      viewPath += view;
       console.log("initialize", viewPath);
       var SubView = require(viewPath);
-      var appView = new SubView({server: self.server});
-      // console.log("appView init finishes");
+      _.extend(args, {server: self.server});
+      var appView = new SubView(args);
       if (self.server) appView.build(args);
     });
   },
   navigate: function(url, res) {
+    var self = this;
     return _.any(this.handlers, function(handler) {
       console.log("start checking", handler.route);
       var args = handler.route.exec(url);
       if (args) {
+        args = {args: args};
         if (res) _.extend(args, {res: res});
         handler.callback(args);
+        if (!self.server) window.history.pushState({}, document.title, url);
         return true;
       }
     });

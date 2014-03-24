@@ -1,3 +1,5 @@
+require("../models/blog");
+
 var _ = require('underscore');
 var Events = require ('./events');
 var extend = require('./extend');
@@ -13,9 +15,27 @@ function Collection(options){
 _.extend(Collection.prototype, Events, {
   add: function(models, noDup){
     //TODO: when noDup, avoid duplication
-    if (_.isArray(models)) this.models.concat(models);
-    else this.models.push(models);
+    var Model = require("../models/"+this.model);
+    if (_.isArray(models)) {
+      var len = models.length;
+      var i = 0;
+      for (;i<len; i++) models[i] = new Model(models[i]);
+      this.models = this.models.concat(models);
+    }
+    console.log("add finish");
   },
+  boot: function(models) {
+    this.add(models);
+    this.trigger("ready");
+  },
+  where: function(opt) {
+    return _.find(this.models, function(model){
+      _.each(opt, function(value, key){
+        if (model[key].toString()!==value) return false;
+      })
+      return true;
+    });
+  }
 });
 
 Collection.extend = extend;

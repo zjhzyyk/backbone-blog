@@ -1,16 +1,12 @@
 var _ = require('underscore');
-var map = require("./routes");
-var Router = require("../framework/router");
+var Router = require("../routes");
 
 module.exports = Preloader;
 
 function Preloader (){
 	this.router = new Router({server: true});
-	var route, routes = _.keys(map);
-	while ((route = routes.pop()) != null) {
-		this.router.route(route, map[route]);
-	}
 };
+
 Preloader.prototype = {
 	handle: function(req, res, next){
 		console.log("get url", req.url);

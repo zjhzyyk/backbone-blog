@@ -29,15 +29,22 @@ module.exports = function(grunt) {
         files: ['Gruntfile.js']
       },
       jst: {
-        files: ['app/templates/{,*/}*.html'],
+        files: ['app/templates/**/*.html','Gruntfile.js'],
         tasks: ['jst']
       },
       compass: {
-        files: ['app/styles/{,*/}*.{scss,sass}'],
+        files: ['app/styles/**/*.{scss,sass}','Gruntfile.js'],
         tasks: ['compass:dev']
       },
       browserify: {
-        files: ['app/client/{,*/}*.js'],
+        files: [
+          'app/client/**/*.js',
+          'app/templates/templates.js',
+          'app/models/**/*.js',
+          'app/collections/**/*.js',
+          'app/framework/**/*.js',
+          'Gruntfile.js'
+        ],
         tasks: ['browserify']
       }
     },
@@ -56,16 +63,16 @@ module.exports = function(grunt) {
       }
     },
     browserify: {
+      options: {
+        debug: true
+      },
       app: {
         src: ['app/client/**/*.js'],
-        dest: 'app/dist/main.js',
-        options: {
-          // external: ['underscore']
-        }
+        dest: 'app/dist/main.js'
       }
     }
   });
-  
+
   grunt.registerTask('nodemon', function () {
     grunt.util.spawn({
       cmd: 'node',
