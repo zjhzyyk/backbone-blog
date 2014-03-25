@@ -1,4 +1,6 @@
 var _ = require('underscore');
+var array = [];
+var slice = array.slice;
 
 Events = {
   // Bind an event to a `callback` function. Passing `"all"` will bind

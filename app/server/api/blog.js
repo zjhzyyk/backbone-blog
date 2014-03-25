@@ -1,5 +1,5 @@
 var Blog = require("../model/blog");
-var config = require("../config");
+var config = require("../../config");
 var xss = require('xss');
 
 function getPage(num, succeed, fail){
@@ -19,35 +19,13 @@ function getPage(num, succeed, fail){
 
 module.exports.getPage = getPage;
 
-module.exports.getBlogs = function(req, res) {
-	if (!req.query.page || typeof parseInt(req.query.page)!=="number") {
-		res.send(404);
-		return;
-	}
-	var pageid = parseInt(req.query.page) - 1;
-	if (pageid<0) {
-		res.send(404);
-		return;
-	}
-	var perpage = config.blogsPerPage;
-	Blog.find({})
-		.sort('-createTime')
-		.skip(pageid*perpage)
-		.limit(perpage)
-		.exec(function(err, blogs){
-			if (err) {
-				res.json(500, {
-					error: err
-				});
-			} else {
-				Blog.count({}, function(err, count){
-					var totalPages = count/config.blogsPerPage;
-					if (totalPages*config.blogsPerPage<count) totalPages++;
-					res.json(200, {data: blogs, total: totalPages});	
-				});
-			}
-		});
-}
+module.exports.getBlogIndex = function(req, res) {
+	getPage(1, function(blogs){
+		res.json(200, {blogs: blogs});
+	}, function(err){
+		console.log(err);	
+	});
+};
 
 module.exports.create = function(req, res) {
 	var blog = new Blog({

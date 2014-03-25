@@ -8,14 +8,15 @@ function View(options){
   if (!this.server) {
     this.cid = _.uniqueId('view');
     this.initialize();
-    this.render();
   }
 };
 
 var delegateEventSplitter = /^(\S+)\s*(.*)$/;
 
 _.extend(View.prototype, {
-  initialize: function(){},
+  initialize: function(){
+    render();
+  },
   $: function(selector) {
     return this.$el.find(selector);
   },
@@ -23,7 +24,6 @@ _.extend(View.prototype, {
   afterCreate: function(){},
   //'mousedown .title':  'edit',
   delegateEvents: function(events) {
-    this.$el.on("click", "a", "navigate")
     if (!(events || (events = _.result(this, 'events')))) return this;
     this.undelegateEvents();
     for (var key in events) {
@@ -42,11 +42,6 @@ _.extend(View.prototype, {
       }
     }
     return this;
-  },
-  navigate: function(e){
-    e.preventDefault();
-    console.log("navigate to", $(e.target).attr("href"));
-    app.router.navigate($(e.target).attr("href"));
   },
   undelegateEvents: function() {
     this.$el.off('.delegateEvents' + this.cid);

@@ -1,8 +1,7 @@
 (function(){
-  var Router = require("../routes");
-  var BlogCollection = require("../collections/blogs");
   var App = window.App = require("./store");
-  App.router = new Router();
+  var BlogCollection = require("../collections/blogs");
   App.collections.blogs = new BlogCollection();
-  console.log("blogs collection init finish");
+  var Router = require("../routes");  
+  App.router = new Router();
 })();

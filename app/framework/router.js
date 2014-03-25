@@ -14,6 +14,7 @@ function Router(options){
   _.extend(this, options);
   this.handlers = [];
   this.initialize();
+  this.inInit = false;
   if (!this.server)
     this.start();
 };
@@ -34,6 +35,7 @@ _.extend(Router.prototype, {
     this.prevURL = current;
   },
   start: function(){
+    this.inInit = true;
     this.checkUrl();
     $(document).on('popstate', this.checkUrl);
   },
@@ -62,7 +64,8 @@ _.extend(Router.prototype, {
       console.log("start checking", handler.route);
       var args = handler.route.exec(url);
       if (args) {
-        args = {args: args};
+        args = {args: args, navigate: !self.inInit};
+        self.inInit = false;
         if (res) _.extend(args, {res: res});
         handler.callback(args);
         if (!self.server) window.history.pushState({}, document.title, url);

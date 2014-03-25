@@ -23,7 +23,7 @@
 	<script type="text/javascript" src="main.js"></script>
 	<script type="text/javascript">
 	<% _.each(bootData, function(value, key){ %>
-		<%= "App.collections."+key+".add("+JSON.stringify(value)+");" %>
+		<%= "App.collections."+key+".boot("+JSON.stringify(value)+");" %>
 	<% }); %>
 	</script>
 </body>

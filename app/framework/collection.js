@@ -22,7 +22,6 @@ _.extend(Collection.prototype, Events, {
       for (;i<len; i++) models[i] = new Model(models[i]);
       this.models = this.models.concat(models);
     }
-    console.log("add finish");
   },
   boot: function(models) {
     this.add(models);

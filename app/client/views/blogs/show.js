@@ -9,6 +9,7 @@ module.exports = View.extend({
     this.year = this.args[1];
     this.month = this.args[2];
     this.title = this.args[3];
+    this.render();
   },
   render: function(){
     this.$el = $("#main");
