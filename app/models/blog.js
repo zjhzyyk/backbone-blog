@@ -5,7 +5,7 @@ module.exports = Model.extend({
 		if (!(this.createTime instanceof Date)) this.createTime = new Date(this.createTime);
 		this.year = this.createTime.getFullYear();
 		this.month = this.createTime.getMonth()+1;
-		this.dashTitle = this.title.replace(/&nbsp;/, " ").split(/\s+/).join("-").toLowerCase();
+		this.dashTitle = this.title.replace(/&nbsp;/g, " ").replace(/\s/g,"-").toLowerCase();
 		this.time = this.getTime();
 	},
 	getMonth: function(){

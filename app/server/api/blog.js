@@ -17,6 +17,13 @@ function getPage(num, succeed, fail){
 		});
 }
 
+function find(opt, succeed, fail) {
+	Blog.findOne(opt, function(err, blog){
+		if (err) fail(err);
+		else succeed(blog);
+	});
+}
+
 module.exports.getPage = getPage;
 
 module.exports.getBlogIndex = function(req, res) {
@@ -26,6 +33,8 @@ module.exports.getBlogIndex = function(req, res) {
 		console.log(err);	
 	});
 };
+
+module.exports.find = find;
 
 module.exports.create = function(req, res) {
 	var blog = new Blog({
