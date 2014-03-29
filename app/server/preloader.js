@@ -10,7 +10,7 @@ function Preloader (){
 Preloader.prototype = {
 	handle: function(req, res, next){
 		console.log("get url", req.url);
-		if (!this.router.navigate(req.url, res))
-			this.router.navigate('/404',res);
+		if (!this.router.loadUrl(req.url, res))
+			this.router.loadUrl('/404',res);
 	}
 };

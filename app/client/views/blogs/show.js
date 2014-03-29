@@ -9,14 +9,18 @@ module.exports = View.extend({
     this.year = this.args[1];
     this.month = this.args[2];
     this.title = this.args[3];
+    console.log("render", this.year, this.month, this.title);
     this.render();
   },
   render: function(){
+    var self = this;
     this.$el = $("#main");
-    this.$el.html(JST[this.template](app.collections.blogs.where({
-      year: this.year,
-      month: this.month,
-      dashTitle: this.title
-    })));
+    if (this.navigate) {
+      this.$el.html(JST[self.template](app.collections.blogs.where({
+        year: self.year,
+        month: self.month,
+        dashTitle: self.title
+      })));
+    }
   }
 });

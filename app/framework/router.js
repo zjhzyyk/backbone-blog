@@ -12,6 +12,7 @@ module.exports = Router;
 function Router(options){
   // console.log("router options", options);
   _.extend(this, options);
+  _.bindAll(this, 'checkUrl');
   this.handlers = [];
   this.initialize();
   this.inInit = false;
@@ -28,19 +29,42 @@ _.extend(Router.prototype, {
     }
   },
   checkUrl: function(e){
+    if (this.alreadyInit) {
+      this.alreadyInit = false;
+      return;
+    }
     console.log("url changes to", window.location.pathname + window.location.search);
     var current = decodeURI(window.location.pathname + window.location.search);
     if (current===this.prevURL) return;
-    this.navigate(current);
-    this.prevURL = current;
+    // if (!this.inInit) {
+    //   console.log("push", current, "in checkUrl")
+    //   window.history.pushState({}, document.title, current);
+    // }
+    this.loadUrl(current);
+  },
+  loadUrl: function(url, res) {
+    var self = this;
+    return _.any(this.handlers, function(handler) {
+      console.log("start checking", handler.route);
+      var args = handler.route.exec(url);
+      if (args) {
+        args = {args: args, navigate: !self.inInit};
+        self.inInit = false;
+        if (res) _.extend(args, {res: res});
+        handler.callback(args);
+        this.prevURL = url;
+        return true;
+      }
+    });
   },
   start: function(){
     this.inInit = true;
     this.checkUrl();
-    $(document).on('popstate', this.checkUrl);
+    this.alreadyInit = true;
+    $(window).on('popstate', this.checkUrl);
   },
   stop: function(){
-    $(document).off('popstate', this.checkUrl);
+    $(window).off('popstate', this.checkUrl);
   },
   bindRoute: function(route, callback){
     this.handlers.unshift({route: route, callback: callback});
@@ -58,20 +82,12 @@ _.extend(Router.prototype, {
       if (self.server) appView.build(args);
     });
   },
-  navigate: function(url, res) {
+  navigate: function(url) {
     var self = this;
-    return _.any(this.handlers, function(handler) {
-      console.log("start checking", handler.route);
-      var args = handler.route.exec(url);
-      if (args) {
-        args = {args: args, navigate: !self.inInit};
-        self.inInit = false;
-        if (res) _.extend(args, {res: res});
-        handler.callback(args);
-        if (!self.server) window.history.pushState({}, document.title, url);
-        return true;
-      }
-    });
+    if (self.loadUrl(url) && !self.server) {
+      console.log("push", url, "in navigate");
+      window.history.pushState({}, document.title, url);
+    }
   }
 });
 

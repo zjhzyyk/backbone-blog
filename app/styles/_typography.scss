@@ -15,11 +15,7 @@ p { -moz-osx-font-smoothing: grayscale; }
 a {
   color: $link-color;
   text-decoration: none;
-  
-  &:visited {
-    color: $link-visited-color;
-  }
-  
+  @include transition(color 0.3s);
   &:hover, &:visited:hover {
     color: $link-hover-color;
     text-decoration: underline;
@@ -47,6 +43,10 @@ ol { list-style: decimal; }
 
 nav li {list-style: none; display: inline-block;}
 
+.year-tag,time {color: #aaa;}
+
+time {font-size: 14px;}
+
 @media only screen and (min-width: 768px) {
   h1 {font-size: 42px;}
   h2 {font-size: 19px;}
@@ -56,12 +56,13 @@ nav li {list-style: none; display: inline-block;}
   h1 {font-size: 52px;}
   h2 {font-size: 23px;}
   body {font-size: 18px;}
-	article > h1 {font-size: 28px;}
   article {
     h1 {font-size: 48px;}
     h2 {font-size: 28px;}
     h3 {font-size: 23px;}
   }
+	.summary > h1, .year-tag {font-size: 28px;}
+  time {font-size: 17px;}
   footer {font-size: 14px;}
 }
 

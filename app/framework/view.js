@@ -39,6 +39,7 @@ _.extend(View.prototype, {
         this.$el.on(eventName, method);
       } else {
         this.$el.on(eventName, selector, method);
+        console.log(eventName, selector, method, "attached");
       }
     }
     return this;

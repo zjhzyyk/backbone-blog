@@ -5,7 +5,7 @@ var $ = require("cheerio");
 
 module.exports = NotFound.extend({
   build: function(args){
-    var index = $(JST['index']());
+    var index = $(JST['index']({bootData:{}}));
     index.find("#main").append(JST[this.template]());
     args.res.send(index.toString());
   }

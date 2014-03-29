@@ -7,17 +7,17 @@ body {
 
 @media only screen and (min-width: 550px) {
 	#main {
-		> .year-tag {display: block; float: left;}
+		> .year-tag {display: block; float: left; margin-top: 11px;}
 		> .summary {
 			margin-left: 80px;
-			padding-left: 70px;
+			padding: 10px 0 10px 70px;
 			position: relative;
 		}
 	}
 	article > time {
 		position: absolute;
 		left: 0;
-		top: 0;
+		top: 21px;
 	}
 	.blog-year {display: none;}
 }

@@ -6,10 +6,12 @@ module.exports = View.extend({
   template: "blogs/index",
   events: {
     "click a": "jump"
+    // a[href^='/']
   },
   initialize:function(){
     var self = this;
-    app.collections.blogs.on("ready", function(){
+    app.collections.blogs.once("ready", function(){
+      console.log("call render in", self.cid);
       self.render();
     });
     if (this.navigate) {
@@ -21,10 +23,13 @@ module.exports = View.extend({
   },
   jump: function(e){
     e.preventDefault();
-    console.log("navigate to", $(e.target).attr("href"));
+    console.log("navigate to", $(e.target).attr("href"), "in", this.cid);
+    this.undelegateEvents();
+    this.$el = null;
     app.router.navigate($(e.target).attr("href"));
   },
   render: function() {
+    console.log("start rendering blog index");
     this.$el = $('body');
     this.delegateEvents();
     if (this.navigate) {

@@ -6,3 +6,18 @@
 @import "variables";
 @import "layout";
 @import "typography";
+
+html {
+  background: #f8f8f8 url('/images/noise.png') top left;
+}
+
+.summary {border-bottom: 1px #aaa dashed;}
+
+.summary:last-child {border-bottom: none;}
+
+footer {
+  border-top: 1px solid #f2f2f2;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin-top: 16px;
+}

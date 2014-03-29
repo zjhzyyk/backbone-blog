@@ -21,7 +21,7 @@ module.exports = function(grunt) {
       }
     },
     clean: [
-      "app/dist/*",
+      "app/dist/*.*",
       "app/templates/templates.js"
     ],
     watch: {
