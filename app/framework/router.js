@@ -1,9 +1,11 @@
 require("../client/views/blogs/index");  
 require("../client/views/blogs/show");
 require("../client/views/404");
+require("../client/views/user/login");
 
 var _ = require('underscore');
 var extend = require('./extend');
+var app  = require("../client/store");
 var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
 var namedParam    = /:\w+/g;
 
@@ -12,7 +14,7 @@ module.exports = Router;
 function Router(options){
   // console.log("router options", options);
   _.extend(this, options);
-  _.bindAll(this, 'checkUrl');
+  _.bindAll(this, 'checkUrl', 'onLinkClick');
   this.handlers = [];
   this.initialize();
   this.inInit = false;
@@ -61,25 +63,34 @@ _.extend(Router.prototype, {
     this.inInit = true;
     this.checkUrl();
     this.alreadyInit = true;
+    $('body').on('click', "a[href^='/']", this.onLinkClick);
     $(window).on('popstate', this.checkUrl);
   },
   stop: function(){
     $(window).off('popstate', this.checkUrl);
+    $('body').off('click', "a[href^='/']", this.onLinkClick);
+  },
+  onLinkClick: function(e){
+    e.preventDefault();
+    console.log("navigate to", $(e.target).attr("href"));
+    this.navigate($(e.target).attr("href"));
   },
   bindRoute: function(route, callback){
     this.handlers.unshift({route: route, callback: callback});
   },
-  route: function(url, view){
+  route: function(url, viewName){
     var self = this;
     url = url.replace(escapeRegExp, '\\$&').replace(namedParam, '(.*?)');
     this.bindRoute(new RegExp("^"+url+'(?:\\?([\\s\\S]*))?$'), function(args){
       var viewPath = self.server ? "../server/views/" : "../client/views/";
-      viewPath += view;
+      viewPath += viewName;
       console.log("initialize", viewPath);
-      var SubView = require(viewPath);
+      var View = require(viewPath);
       _.extend(args, {server: self.server});
-      var appView = new SubView(args);
-      if (self.server) appView.build(args);
+      var view = new View(args);
+      if (app.currentView) app.currentView.dispose();
+      if (!self.server) app.currentView = view;
+      if (self.server) view.build(args);
     });
   },
   navigate: function(url) {

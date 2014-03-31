@@ -6,6 +6,7 @@
 @import "variables";
 @import "layout";
 @import "typography";
+@import "form";
 
 html {
   background: #f8f8f8 url('/images/noise.png') top left;
@@ -15,9 +16,20 @@ html {
 
 .summary:last-child {border-bottom: none;}
 
-footer {
-  border-top: 1px solid #f2f2f2;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  margin-top: 16px;
+nav li {
+  padding: 0 5px;
+  border-radius: 3px;
+  margin-right: 10px;
+  background: #fcfcfc;
+  @include box-shadow(#adadad 0px 3px 5px);
+}
+
+nav li.active {
+  background: #c4c4c4;
+  @include box-shadow(#525252 0px 3px 5px);
+}
+
+nav li:hover {
+  background: #333;
+  a {color: #f2f2f2 !important;}
 }

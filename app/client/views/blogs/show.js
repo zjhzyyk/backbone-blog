@@ -15,6 +15,7 @@ module.exports = View.extend({
   render: function(){
     var self = this;
     this.$el = $("#main");
+    $("nav li").removeClass("active");
     if (this.navigate) {
       this.$el.html(JST[self.template](app.collections.blogs.where({
         year: self.year,

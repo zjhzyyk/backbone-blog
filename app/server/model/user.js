@@ -46,6 +46,5 @@ userSchema.methods.generateRandomToken = function () {
   return token;
 };
 
-// Seed a user
 var User = mongoose.model('User', userSchema);
 module.exports = User;

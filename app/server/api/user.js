@@ -25,6 +25,7 @@ var isAuth = function(req, res){
 };
 
 module.exports.login = function(req, res){
+	console.log("start checking login");
 	var username = req.body.username;
 	var password = req.body.password;
 	var rememberme = req.body.rememberme;
@@ -34,7 +35,8 @@ module.exports.login = function(req, res){
 			console.log("database find error", err);
 			res.json(200, {message: "database find error", success: false});
 		} else if (!user) {
-			res.json(200, {message: "invalid username", success: false});
+			//invalid username, but should return incorrect password
+			res.json(200, {message: "Incorrect password", success: false});
 		} else {
 			user.comparePassword(password, function(err, isMatch){
 				if (err) {
@@ -53,7 +55,7 @@ module.exports.login = function(req, res){
 					}
 					res.json(200, {success: true});
 				}
-				else res.json(200, {message: "incorrect password", success: false});
+				else res.json(200, {message: "Incorrect password", success: false});
 			});
 		}
 	});

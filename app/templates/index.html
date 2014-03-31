@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+	<title>My blog</title>
 	<!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'> -->
 	<link rel="stylesheet" type="text/css" href="/style.css">
 </head>
@@ -10,8 +11,8 @@
 	</header>
 	<nav>
 		<ul>
-			<li><a href="/">Archives</a></li>
-			<li><a href="/login">Login</a></li>
+			<li id="archives-link"><a href="/">Archives</a></li>
+			<li id="login-link"><a href="/login">Login</a></li>
 		</ul>
 	</nav>
 	<section id="main"></section>
@@ -22,12 +23,12 @@
 	<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
   <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script> -->
 	<script type="text/javascript" src="/main.js"></script>
-	<script type="text/javascript">
 	<% if (bootData) {%>
+	<script type="text/javascript">
 	<% _.each(bootData, function(value, key){ %>
 		<%= "App.collections."+key+".boot("+JSON.stringify(value)+");" %>
 	<% }); %>
-	<% } %>
 	</script>
+	<% } %>
 </body>
 </html>

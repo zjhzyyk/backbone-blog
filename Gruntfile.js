@@ -80,6 +80,7 @@ module.exports = function(grunt) {
         './node_modules/nodemon/bin/nodemon.js',
         'app/server/server.js',
         '--ignore "node_modules/**"',
+        '--watch "./**/*.js"',
         'NODE_ENV=development'
       ],
       opts: {
@@ -92,7 +93,7 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', [
-    'clean',
+    // 'clean',
     'compass:dev',
     'jst',
     'browserify',

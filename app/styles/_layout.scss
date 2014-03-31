@@ -3,7 +3,20 @@ body {
 	margin: 0 auto;
 }
 
+*, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
 .year-tag {display: none;}
+
+footer {
+  border-top: 1px solid #f2f2f2;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin-top: 16px;
+}
+
+nav {margin-bottom: 15px;}
 
 @media only screen and (min-width: 550px) {
 	#main {
