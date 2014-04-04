@@ -1,5 +1,6 @@
 var View = require("../../../framework/view");
 var app = require("../../store");
+var DropdownView = require("../dropdown");
 var _ = require('underscore');
 
 module.exports = View.extend({
@@ -20,13 +21,34 @@ module.exports = View.extend({
   render: function() {
     console.log("start rendering blog index");
     this.$el = $('body');
-    $("nav li").removeClass("active");
+    $("nav a").removeClass("active");
     $("#archives-link").addClass("active");
     this.delegateEvents();
+    
+    this.userDropDown = new DropdownView({
+      model: {
+        text: app.session.username,
+        options: [
+          {text: "Change password", url: "/change-password"},
+          {text: "Logout", url: "/logout"}
+        ]
+      }
+    })
     if (this.navigate) {
       console.log("render blog index");
       var JST = require("../../../templates/templates")(_);
-      $("#main").html(JST['blogs/index']({blogs: app.collections.blogs.page(1)}));
+      $("#main").html(JST['blogs/index']({
+        blogs: app.collections.blogs.page(1),
+        session: app.session
+      }));
+      if (app.session.loggedIn) {
+        $(".nav-right").html(this.userDropDown.$el);
+      }
     }
+    this.userDropDown.attachEvents();
+  },
+  dispose: function(){
+    this.userDropDown = dispose();
+    View.prototype.dispose.call(this);
   }
 });

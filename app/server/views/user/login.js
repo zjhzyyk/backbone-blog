@@ -1,13 +1,15 @@
-var _ = require("underscore");
-var UserLogin = require("../../../client/views/user/login");
-var JST = require("../../../templates/templates")(_);
-var $ = require("cheerio");
+var User = require("../../api/user");
+var ServerView = require("../../../framework/server_view");
 
-module.exports = UserLogin.extend({
-  build: function(args){
-    var index = $(JST['index']({bootData: {}}));
-    var login = $(JST['user/login']());
-    index.find("#main").append(login);
-    args.res.send(index.toString());
+module.exports = ServerView.extend({
+  parent: "../index",
+  wrapper: "#main",
+  template: "user/login",
+  beforeBuild: function(){
+    if (User.isAuth(this.req, this.res)) {
+      this.res.redirect("/");
+      return true;
+    }
+    return false;
   }
 });

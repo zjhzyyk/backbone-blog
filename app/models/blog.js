@@ -2,6 +2,9 @@ var Model = require("../framework/model");
 
 module.exports = Model.extend({
 	initialize: function(){
+		if (!this.createTime) this.createTime = new Date();
+		if (!this.title) this.title = "";
+		if (!this.content) this.content = "";
 		if (!(this.createTime instanceof Date)) this.createTime = new Date(this.createTime);
 		this.year = this.createTime.getFullYear();
 		this.month = this.createTime.getMonth()+1;

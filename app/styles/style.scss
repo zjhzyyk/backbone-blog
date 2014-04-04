@@ -7,6 +7,8 @@
 @import "layout";
 @import "typography";
 @import "form";
+@import "dropdown";
+@import "nav";
 
 html {
   background: #f8f8f8 url('/images/noise.png') top left;
@@ -16,20 +18,6 @@ html {
 
 .summary:last-child {border-bottom: none;}
 
-nav li {
-  padding: 0 5px;
-  border-radius: 3px;
-  margin-right: 10px;
-  background: #fcfcfc;
-  @include box-shadow(#adadad 0px 3px 5px);
-}
+article header {border-bottom: 1px #aaa dashed;}
 
-nav li.active {
-  background: #c4c4c4;
-  @include box-shadow(#525252 0px 3px 5px);
-}
-
-nav li:hover {
-  background: #333;
-  a {color: #f2f2f2 !important;}
-}
+[contenteditable='true']:empty:not(:focus):before{content:attr(placeholder)}

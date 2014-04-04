@@ -10,9 +10,25 @@
 		<h1>My blog</h1>
 	</header>
 	<nav>
-		<ul>
-			<li id="archives-link"><a href="/">Archives</a></li>
-			<li id="login-link"><a href="/login">Login</a></li>
+		<ul class="pull-right">
+			<% if (session.loggedIn) { %>
+			<li class="dropdown-wrapper">
+				<a class="dropdown-link" href><%= session.username %></a>
+				<ul class="dropdown-menu">
+				  <li><a href="/change-password">Change Password</a></li>
+				  <li><a href="/logout">Logout</a></li>
+				</ul>
+			</li>
+			<% } %>
+		</ul>
+		<ul class="main-nav">
+			<li><a id="archives-link" href="/">Archives</a></li>
+			<% if (!session.loggedIn) { %>
+			<li><a id="login-link" href="/login">Login</a></li>
+			<% } %>
+			<% if (session.loggedIn) { %>
+			<li><a id="compose-link" href="/compose">Compose</a></li>
+			<% } %>
 		</ul>
 	</nav>
 	<section id="main"></section>
@@ -26,7 +42,11 @@
 	<% if (bootData) {%>
 	<script type="text/javascript">
 	<% _.each(bootData, function(value, key){ %>
-		<%= "App.collections."+key+".boot("+JSON.stringify(value)+");" %>
+		<% if (key==="session") { %>
+			<%= "App.session="+JSON.stringify(value)+";" %>
+		<% } else { %>
+			<%= "App.collections."+key+".boot("+JSON.stringify(value)+");" %>
+		<% } %>
 	<% }); %>
 	</script>
 	<% } %>

@@ -24,6 +24,8 @@ var isAuth = function(req, res){
 	}
 };
 
+module.exports.isAuth = isAuth;
+
 module.exports.login = function(req, res){
 	console.log("start checking login");
 	var username = req.body.username;

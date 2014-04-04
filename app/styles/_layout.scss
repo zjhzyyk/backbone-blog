@@ -18,6 +18,12 @@ footer {
 
 nav {margin-bottom: 15px;}
 
+.pull-right {float: right;}
+
+#blog-content {
+  margin: 10px 0;
+}
+
 @media only screen and (min-width: 550px) {
 	#main {
 		> .year-tag {display: block; float: left; margin-top: 11px;}

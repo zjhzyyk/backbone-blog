@@ -1,17 +1,16 @@
 <article>
   <header>
     <p class="blog-meta">
-      <time><%= time %></time>
+      <time><%= blog.time %></time>&nbsp;|&nbsp;
       <a href="">Comments</a>
-      <a href="">Edit</a>
+      <% if (session.loggedIn && session.username && session.username===blog.author) { %>
+      <a href="" class="blog-edit">Edit</a>
+      <a href="" class="blog-delete">Delete</a>
+      <% } %>
     </p>
-    <h1><%= title %></h1>
+    <h1><%= blog.title %></h1>
   </header>
-  <div>
-    <%= content %>
+  <div class="blog-content">
+    <%= blog.content %>
   </div>
 </article>
-<div>
-  <a href="">Prev</a>
-  <a href="">Next</a>
-</div>

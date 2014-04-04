@@ -1,5 +1,6 @@
 require("../client/views/blogs/index");  
 require("../client/views/blogs/show");
+require("../client/views/blogs/compose");
 require("../client/views/404");
 require("../client/views/user/login");
 
@@ -44,7 +45,7 @@ _.extend(Router.prototype, {
     // }
     this.loadUrl(current);
   },
-  loadUrl: function(url, res) {
+  loadUrl: function(url, res, req) {
     var self = this;
     return _.any(this.handlers, function(handler) {
       console.log("start checking", handler.route);
@@ -52,7 +53,7 @@ _.extend(Router.prototype, {
       if (args) {
         args = {args: args, navigate: !self.inInit};
         self.inInit = false;
-        if (res) _.extend(args, {res: res});
+        if (res) _.extend(args, {res: res, req: req});
         handler.callback(args);
         this.prevURL = url;
         return true;

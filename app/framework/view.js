@@ -4,11 +4,11 @@ var JST = require("../templates/templates")(_);
 var app = require("../client/store");
 
 function View(options){
+  this.model = {};
   _.extend(this, options);
   if (!this.server) {
     this.cid = _.uniqueId('view');
     this.wrapper = "#main";
-    // console.log("call initialize view");
     this.initialize();
   }
 };
@@ -17,7 +17,6 @@ var delegateEventSplitter = /^(\S+)\s*(.*)$/;
 
 _.extend(View.prototype, {
   initialize: function(){
-    // console.log("start initialize view");
     this.render();
     this.afterRender();
     this.delegateEvents();
@@ -28,7 +27,7 @@ _.extend(View.prototype, {
   render: function(){
     if (!this.template) throw new Error("template not specified");
     this.$el = $(this.wrapper);
-    this.$el.html(JST[this.template]());
+    this.$el.html(JST[this.template](this.model));
   },
   afterRender: function(){},
   //'mousedown .title':  'edit',

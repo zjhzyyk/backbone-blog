@@ -3,6 +3,7 @@ var JST = require("../../../templates/templates")(_);
 var $ = require("cheerio");
 var BlogShow = require("../../../client/views/blogs/show");
 var Blogs = require("../../api/blog");
+var User = require("../../api/user");
 var Blog = require("../../../models/blog");
 
 module.exports = BlogShow.extend({
@@ -12,7 +13,7 @@ module.exports = BlogShow.extend({
     var month = parseInt(this.args[2]);
     var title = this.args[3];
     if (!(_.isNumber(year)) || !(_.isNumber(month)) || !title.length) {
-      self.res.redirect(404,'/404');
+      self.res.redirect('/404');
       return;
     }
     console.log("year", year, "month", month-1, "title", title);
@@ -22,13 +23,15 @@ module.exports = BlogShow.extend({
       ititle: title
     }, function(blog){
       if (!blog) {
-        self.res.redirect(404,'/404');
+        self.res.redirect('/404');
         return;
       }
-      var index = $(JST['index']({bootData: {"blogs": [blog]}}));
+      var session = {loggedIn: User.isAuth(self.req, self.res)};
+      if (session.loggedIn) session.username = self.req.session.username;
+      var index = $(JST['index']({bootData: {blogs: [blog], session: session}, session: session}));
       console.log(blog);
       blog = new Blog(blog);
-      content = JST['blogs/show'](blog);
+      content = JST['blogs/show']({blog:blog, session: session});
       index.find("#main").append(content);
       self.res.send(index.toString());
     }, function(err){

@@ -1,0 +1,8 @@
+<li>
+<a href><%= text %></a>
+<ul>
+<% _.each(options, function(option){ %>
+  <li><a href="<%= option.url %>"><%= option.text %></a></li>
+<% }) %>
+</ul>
+</li>

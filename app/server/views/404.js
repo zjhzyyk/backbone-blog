@@ -1,12 +1,7 @@
-var _ = require("underscore");
-var NotFound = require("../../client/views/404");
-var JST = require("../../templates/templates")(_);
-var $ = require("cheerio");
+var ServerView = require("../../framework/server_view");
 
-module.exports = NotFound.extend({
-  build: function(args){
-    var index = $(JST['index']({bootData:{}}));
-    index.find("#main").append(JST[this.template]());
-    args.res.send(index.toString());
-  }
+module.exports = ServerView.extend({
+  parent: "./index",
+  wrapper: "#main",
+  template: "404"
 });

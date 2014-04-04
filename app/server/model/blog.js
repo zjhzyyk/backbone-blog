@@ -6,7 +6,8 @@ var BlogSchema = mongoose.Schema({
 	content: String,
 	createTime: { type: Date, default: Date.now },
   year: Number,
-  month: Number
+  month: Number,
+  author: String
 });
 
 BlogSchema.pre('save',function(next){
