@@ -24,7 +24,6 @@ module.exports = View.extend({
     $("nav a").removeClass("active");
     $("#archives-link").addClass("active");
     this.delegateEvents();
-    
     this.userDropDown = new DropdownView({
       model: {
         text: app.session.username,
@@ -32,8 +31,10 @@ module.exports = View.extend({
           {text: "Change password", url: "/change-password"},
           {text: "Logout", url: "/logout"}
         ]
-      }
-    })
+      },
+      dropdownLink: ".dropdown-link",
+      dropdownMenu: ".dropdown-menu"
+    });
     if (this.navigate) {
       console.log("render blog index");
       var JST = require("../../../templates/templates")(_);
@@ -48,7 +49,7 @@ module.exports = View.extend({
     this.userDropDown.attachEvents();
   },
   dispose: function(){
-    this.userDropDown = dispose();
+    this.userDropDown.dispose();
     View.prototype.dispose.call(this);
   }
 });

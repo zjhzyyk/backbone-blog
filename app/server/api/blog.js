@@ -1,6 +1,7 @@
 var Blog = require("../model/blog");
 var config = require("../../config");
 var xss = require('xss');
+var User = require("./user");
 
 function getPage(num, succeed, fail){
 	var perpage = config.blogsPerPage;
@@ -37,10 +38,15 @@ module.exports.getBlogIndex = function(req, res) {
 module.exports.find = find;
 
 module.exports.create = function(req, res) {
+	if (!User.isAuth(req)) {
+		res.redirect('/404');
+		return;
+	}
 	var blog = new Blog({
 		createTime: new Date(req.body.createTime),
 		title: xss(req.body.title),
-		content: xss(req.body.content)
+		content: xss(req.body.content),
+		author: req.session.username
 	});
 	blog.save(function (err) {
 		if (err) {
@@ -58,6 +64,10 @@ module.exports.create = function(req, res) {
 };
 
 module.exports.modify = function(req, res){
+	if (!User.isAuth(req)) {
+		res.redirect('/404');
+		return;
+	}
 	Blog.update({_id: req.params.id}, {title: xss(req.body.title), content: xss(req.body.content)}, function(err){
 		if (err)
 			console.log("update err");
@@ -67,6 +77,10 @@ module.exports.modify = function(req, res){
 };
 
 module.exports.delete = function(req, res) {
+	if (!User.isAuth(req)) {
+		res.redirect('/404');
+		return;
+	}
 	Blog.remove({_id: req.params.id}, function(err){
 		if (err) {
 			res.json(500, {error: err});

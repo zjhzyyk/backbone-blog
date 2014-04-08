@@ -1,5 +1,5 @@
-var ServerView = require("../../../framework/server_view");
-var User = require("../../api/user");
+var ServerView = require("../../framework/server_view");
+var User = require("../api/user");
 var _ = require("underscore");
 var JST = require("../../templates/templates")(_);
 
@@ -11,7 +11,7 @@ module.exports = ServerView.extend({
       username: this.req.session.username
     };
     return {
-      bootData: _.extend(this.data, {session: this.session}),
+      bootData: _.extend((this.data || {}), {session: this.session}),
       session: this.session
     };
   },

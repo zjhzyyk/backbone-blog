@@ -3,13 +3,13 @@ var ServerView = require("../../../framework/server_view");
 var Blogs = require("../../api/blog");
 var Blog = require("../../../models/blog");
 var JST = require("../../../templates/templates")(_);
-var $ = require("cheerio");
 
 module.exports = ServerView.extend({
+	parent: "../server/views/index",
 	build: function(){
 		var self = this;
 		Blogs.getPage(1, function(blogs){
-			var index = this.getParent({blogs: blogs});
+			var index = self.getParent({blogs: blogs});
 			var num = blogs.length;
 			var i = 0;
 			for (; i<num; i++) {

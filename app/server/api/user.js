@@ -1,7 +1,7 @@
 var User = require("../model/user");
 var timeout = 2592000000; // 30*24*60*60*1000 Rememeber 'me' for 30 days
 
-var isAuth = function(req, res){
+var isAuth = function(req){
 	if (req.session.username) {
 		console.log("username exists");
 		if (req.session.rememberme) {

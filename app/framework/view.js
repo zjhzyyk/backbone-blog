@@ -32,7 +32,7 @@ _.extend(View.prototype, {
   afterRender: function(){},
   //'mousedown .title':  'edit',
   delegateEvents: function(events) {
-    // console.log("events:", this.events);
+    console.log("events:", this.events);
     if (!(events || (events = _.result(this, 'events')))) return this;
     this.undelegateEvents();
     for (var key in events) {
@@ -47,7 +47,7 @@ _.extend(View.prototype, {
         this.$el.on(eventName, method);
       } else {
         this.$el.on(eventName, selector, method);
-        // console.log(eventName, selector, method, "attached");
+        console.log(eventName, selector, "attached");
       }
     }
     return this;

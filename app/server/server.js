@@ -40,6 +40,8 @@ app.configure('development', function(){
 
 app.get('/blogs/index', blogs.getBlogIndex);
 app.post('/login', user.login);
+app.post('/compose', blogs.create);
+
 
 app.listen(3000);
 

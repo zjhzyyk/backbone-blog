@@ -1,6 +1,6 @@
 var _ = require('underscore');
 var extend = require("./extend");
-var JST = require("../../../templates/templates")(_);
+var JST = require("../templates/templates")(_);
 var $ = require("cheerio");
 
 function ServerView(options){
@@ -17,7 +17,7 @@ _.extend(ServerView.prototype, {
   build: function(){
     if (this.parent && !this.wrapper) throw new Error("server view wrapper not defined.");
     if (!this.template) throw new Error("template not defined");
-    if (!this.res) throw new Error("res not passed in");
+    if (!this.nosend && !this.res) throw new Error("res not passed in");
     this.$el = $(JST[this.template](this.getModel()));
     if (this.parent) {
       var pel = this.getParent();
@@ -36,7 +36,7 @@ _.extend(ServerView.prototype, {
   },
   getParent: function(data){
     var ParentView = require(this.parent);
-    var p = new ParentView({nosend: true, data: data});
+    var p = new ParentView({nosend: true, data: data, req: this.req});
     return p.$el;
   }
 });

@@ -1,12 +1,11 @@
 var _ = require("underscore");
 var JST = require("../../../templates/templates")(_);
-var $ = require("cheerio");
-var BlogShow = require("../../../client/views/blogs/show");
+var ServerView = require("../../../framework/server_view");
 var Blogs = require("../../api/blog");
-var User = require("../../api/user");
 var Blog = require("../../../models/blog");
 
-module.exports = BlogShow.extend({
+module.exports = ServerView.extend({
+  parent: "../server/views/index",
   build: function(){
     var self = this;
     var year = parseInt(this.args[1]);
@@ -26,11 +25,9 @@ module.exports = BlogShow.extend({
         self.res.redirect('/404');
         return;
       }
-      var session = {loggedIn: User.isAuth(self.req, self.res)};
-      if (session.loggedIn) session.username = self.req.session.username;
-      var index = $(JST['index']({bootData: {blogs: [blog], session: session}, session: session}));
       console.log(blog);
       blog = new Blog(blog);
+      var index = self.getParent({blogs: [blog]});
       content = JST['blogs/show']({blog:blog, session: session});
       index.find("#main").append(content);
       self.res.send(index.toString());
